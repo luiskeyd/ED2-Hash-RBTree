@@ -30,7 +30,7 @@ public class MenuArvore {
                 case 2: buscarDado(); break;
                 case 3: removerDado(); break;
                 case 4: visualizarArvore(); break;
-                case 0: System.out.println("Saindo do menu Árvore..."); break;
+                case 0: System.out.println("Saindo..."); break;
                 default: System.out.println("Opção inválida, tente novamente.");
             }
         }

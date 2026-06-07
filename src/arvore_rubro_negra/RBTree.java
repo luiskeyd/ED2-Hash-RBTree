@@ -77,36 +77,28 @@ public class RBTree<T extends Comparable<T>> {
 
         while (z.parent != null && z.parent.color == Color.RED) {
             RBNode avo = z.parent.parent;
+            y = z.parent.sibling; // Agora posso pegar o irmão sem precisar verificar se é o direito ou o esquerdo
 
-            if (z.parent == avo.esq) {
-                y = z.parent.sibling;
-
-                if (y != null && y.color == Color.RED) {
-                    z.parent.color = Color.BLACK;
-                    y.color = Color.BLACK;
-                    avo.color = Color.RED;
-                    z = avo;
-                }
-                else {
+            // Caso 1: Tio vermelho
+            if (y != null && y.color == Color.RED) {
+                z.parent.color = Color.BLACK;
+                y.color = Color.BLACK;
+                avo.color = Color.RED;
+                z = avo;
+            } else {
+                if (z.parent == avo.esq) {
+                    // Caso 2: Tio preto e nó faz zigue-zague
                     if (z == z.parent.dir) {
                         z = z.parent;
                         leftRotate(z);
                     }
-                }
 
-                z.parent.color = Color.BLACK;
-                avo.color = Color.RED;
-                rightRotate(avo);
-            } else {
-                y = z.parent.sibling;
-
-                if (y != null && y.color == Color.RED) {
+                    // Caso 3: Tio preto e nó faz linha reta, o caso 2 termina aqui
                     z.parent.color = Color.BLACK;
-                    y.color = Color.BLACK;
                     avo.color = Color.RED;
-                    z = avo;
-                }
-                else {
+                    rightRotate(avo);
+                } else {
+                    // Simétricos
                     if (z == z.parent.esq) {
                         z = z.parent;
                         rightRotate(z);
@@ -183,10 +175,13 @@ public class RBTree<T extends Comparable<T>> {
         }
     }
 
+    // A modificação dessa é passar o pai como parâmetro para quando remover o filho ter uma referência
     private void rbDeleteFixUp(RBNode x, RBNode xPai) {
+        RBNode w = null;
+
         while (x != this.root && isBlack(x)) {
             if (x == xPai.esq) {
-                RBNode w = xPai.dir;
+                w = xPai.dir;
 
                 if (!isBlack(w)) {
                     w.color = Color.BLACK;
@@ -222,7 +217,7 @@ public class RBTree<T extends Comparable<T>> {
                 }
             }
             else {
-                RBNode w = xPai.esq;
+                w = xPai.esq;
 
                 if (!isBlack(w)) {
                     w.color = Color.BLACK;
