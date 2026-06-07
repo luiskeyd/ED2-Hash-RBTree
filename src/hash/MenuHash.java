@@ -41,7 +41,7 @@ public class MenuHash {
         int chave = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("Digite o valor: (String de preferência)");
+        System.out.print("Digite o valor (String de preferência): ");
         String valor = scanner.nextLine();
 
         tabelaHash.put(chave, valor);
